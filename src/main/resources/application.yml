@@ -1,0 +1,28 @@
+management:
+  endpoints:
+    web:
+      base-path: "/monitoring"
+      exposure:
+        include:
+          - beans
+          - caches
+          - conditions
+          - configprops
+          - env
+          - health
+          - heapdump
+          - info
+          - jolokia
+          - logfile
+          - loggers
+          - metrics
+          - mappings
+          - prometheus
+          - quartz
+          - sessions
+          - shutdown
+          - threaddump
+  endpoint:
+    health:
+      show-components: ALWAYS
+      show-details: ALWAYS
