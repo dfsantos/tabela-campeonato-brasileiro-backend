@@ -1,7 +1,9 @@
 package br.com.dfsantos.brasileirao.campeonato.usecase.busca;
 
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.RepositorioCampeonato;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BuscaCampeonatoUseCase {
 
   private final RepositorioCampeonato repositorioCampeonato;

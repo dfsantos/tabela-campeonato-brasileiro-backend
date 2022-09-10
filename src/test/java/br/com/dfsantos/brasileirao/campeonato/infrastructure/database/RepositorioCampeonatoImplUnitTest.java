@@ -36,4 +36,21 @@ class RepositorioCampeonatoImplUnitTest {
     assertThat(repositorio.localizarPorAno(_2003)).isPresent();
   }
 
+  @Test
+  @DisplayName("retorna lista vazia nenhum campeonato é encontrado")
+  void retorna_lista_vazia_quando_nao_encontra_campeonatos() {
+    // expect
+    assertThat(repositorio.listarTodosCampeonatos()).isEmpty();
+  }
+
+  @Test
+  @DisplayName("retorna lista com campeonatos armazenados")
+  void retorna_lista_com_campeonatos_armazenados() {
+    // given
+    repositorio.armazenar(campeonato());
+
+    // expect
+    assertThat(repositorio.listarTodosCampeonatos()).isNotEmpty();
+  }
+
 }

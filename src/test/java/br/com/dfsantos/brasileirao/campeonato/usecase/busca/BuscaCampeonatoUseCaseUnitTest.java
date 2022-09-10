@@ -16,7 +16,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @DisplayName("Caso de uso: buscar campeonato")
-class BuscaCampeonatoUseCaseUnitTest {
+public class BuscaCampeonatoUseCaseUnitTest {
 
   private BuscaCampeonatoUseCase buscaCampeonatoUseCase;
 
