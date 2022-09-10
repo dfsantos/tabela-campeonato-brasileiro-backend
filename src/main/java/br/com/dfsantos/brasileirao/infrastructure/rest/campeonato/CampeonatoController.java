@@ -2,11 +2,7 @@ package br.com.dfsantos.brasileirao.infrastructure.rest.campeonato;
 
 import br.com.dfsantos.brasileirao.usecase.campeonato.criacao.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -27,21 +23,24 @@ public class CampeonatoController {
     this.criacaoCampeonato = criacaoCampeonato;
   }
 
+  @RequestMapping
   @PostMapping(produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
-  public ResponseEntity criarCampeonato(@RequestBody NovoCampeonatoRequestBody requestBody) {
-    try {
-      CriacaoCampeonatoUseCaseOutput output = criacaoCampeonato.executar(new CriacaoCampeonatoUseCaseInput(
-        requestBody.ano(),
-        requestBody.numeroParticipantes(),
-        requestBody.dataInicio(),
-        requestBody.dataTermino()
-      ));
-      return created(URI.create(PATH + "/" + output.ano())).build();
-    } catch (CampeonatoJaExisteException e) {
-      throw new ResponseStatusException(CONFLICT);
-    } catch (NovoCampeonatoException e) {
-      throw new ResponseStatusException(UNPROCESSABLE_ENTITY);
-    }
+  public ResponseEntity criarCampeonato(@RequestBody NovoCampeonatoRequestBody requestBody) throws NovoCampeonatoException {
+    CriacaoCampeonatoUseCaseOutput output = criacaoCampeonato.executar(new CriacaoCampeonatoUseCaseInput(
+      requestBody.ano(),
+      requestBody.numeroParticipantes(),
+      requestBody.dataInicio(),
+      requestBody.dataTermino()
+    ));
+    return created(URI.create(PATH + "/" + output.ano())).build();
   }
+
+  @ResponseStatus(code = CONFLICT, reason = "Campeonato já existe.")
+  @ExceptionHandler(CampeonatoJaExisteException.class)
+  public void campeonatoJaExisteExceptionHandler() {}
+
+  @ResponseStatus(code = UNPROCESSABLE_ENTITY, reason = "Não foi possível atender a requisição.")
+  @ExceptionHandler(NovoCampeonatoException.class)
+  public void novoCampeonatoExceptionHandler() {}
 
 }

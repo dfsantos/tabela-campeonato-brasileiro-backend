@@ -52,7 +52,7 @@ class CampeonatoControllerUnitTest {
       when(criacaoCampeonatoUseCase.executar(any())).thenThrow(NovoCampeonatoException.class);
 
       // when // then
-      assertThrows(ResponseStatusException.class, () -> controller.criarCampeonato(novoCampeonatoRequestBody()));
+      assertThrows(NovoCampeonatoException.class, () -> controller.criarCampeonato(novoCampeonatoRequestBody()));
     }
 
     @Test
@@ -62,7 +62,7 @@ class CampeonatoControllerUnitTest {
       when(criacaoCampeonatoUseCase.executar(any())).thenThrow(CampeonatoJaExisteException.class);
 
       // when // then
-      assertThrows(ResponseStatusException.class, () -> controller.criarCampeonato(novoCampeonatoRequestBody()));
+      assertThrows(CampeonatoJaExisteException.class, () -> controller.criarCampeonato(novoCampeonatoRequestBody()));
     }
 
   }
