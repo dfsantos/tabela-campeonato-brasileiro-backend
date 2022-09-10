@@ -35,12 +35,12 @@ public class CampeonatoController {
     return created(URI.create(PATH + "/" + output.ano())).build();
   }
 
-  @ResponseStatus(code = CONFLICT, reason = "Campeonato já existe.")
+  @ResponseStatus(code = CONFLICT, reason = CampeonatoJaExisteException.MESSAGE)
   @ExceptionHandler(CampeonatoJaExisteException.class)
   public void campeonatoJaExisteExceptionHandler() {
   }
 
-  @ResponseStatus(code = UNPROCESSABLE_ENTITY, reason = "Não foi possível atender a requisição.")
+  @ResponseStatus(code = UNPROCESSABLE_ENTITY, reason = NovoCampeonatoException.MESSAGE)
   @ExceptionHandler(NovoCampeonatoException.class)
   public void novoCampeonatoExceptionHandler() {
   }

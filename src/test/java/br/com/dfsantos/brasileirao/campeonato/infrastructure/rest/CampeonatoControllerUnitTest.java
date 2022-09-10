@@ -70,8 +70,4 @@ class CampeonatoControllerUnitTest {
     return new NovoCampeonatoRequestBody(ANO, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
   }
 
-  public static NovoCampeonatoResponseBody novoCampeonatoResponseBody() {
-    return new NovoCampeonatoResponseBody(ANO, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
-  }
-
 }

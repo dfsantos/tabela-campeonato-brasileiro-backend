@@ -176,7 +176,22 @@ public class CampeonatoControllerIntegrationTest {
         }
 
         @Test
-        @DisplayName("responde com status HTTP 422 não consegue processar a requisição")
+        @DisplayName("responde mensagem de erro quando recurso já existe")
+        void retorna_mensagem_de_erro_quando_recurso_ja_existe(@Autowired MockMvc mockMvc) throws Exception {
+          given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
+            .willThrow(CampeonatoJaExisteException.class);
+
+          mockMvc.perform(
+              post(ENDPOINT)
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(status().reason(CampeonatoJaExisteException.MESSAGE));
+        }
+
+        @Test
+        @DisplayName("responde com status HTTP 422 quando não consegue processar a requisição")
         void retorna_status_http_422_quando_nao_consegue_processar(@Autowired MockMvc mockMvc) throws Exception {
           given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
             .willThrow(NovoCampeonatoException.class);
@@ -188,6 +203,21 @@ public class CampeonatoControllerIntegrationTest {
                 .content(REQUEST_BODY)
             ).andDo(print())
             .andExpect(status().isUnprocessableEntity());
+        }
+
+        @Test
+        @DisplayName("responde com mensagem de erro quando não consegue processar a requisição")
+        void retorna_mensagem_de_erro_quando_nao_consegue_processar(@Autowired MockMvc mockMvc) throws Exception {
+          given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
+            .willThrow(NovoCampeonatoException.class);
+
+          mockMvc.perform(
+              post(ENDPOINT)
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(status().reason(NovoCampeonatoException.MESSAGE));
         }
 
       }
