@@ -8,6 +8,8 @@ import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CampeonatoJaExiste
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCase;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseInput;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.NovoCampeonatoException;
+import br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCase;
+import br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +17,8 @@ import org.junit.jupiter.api.Test;
 
 import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.*;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseUnitTest.output;
+import static br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCaseTest.outputListaVazia;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,13 +31,11 @@ class CampeonatoControllerUnitTest {
 
   private CriacaoCampeonatoUseCase criacaoCampeonatoUseCase = mock(CriacaoCampeonatoUseCase.class);
   private BuscaCampeonatoUseCase buscaCampeonatoUseCase = mock(BuscaCampeonatoUseCase.class);
+  private ListagemCampeonatoUseCase listagemCampeonatoUseCase = mock(ListagemCampeonatoUseCase.class);
 
   @BeforeEach
   void setUp() {
-    controller = new CampeonatoController(
-      criacaoCampeonatoUseCase,
-      buscaCampeonatoUseCase
-    );
+    controller = new CampeonatoController(criacaoCampeonatoUseCase, buscaCampeonatoUseCase, listagemCampeonatoUseCase);
   }
 
   @Nested
@@ -113,6 +115,51 @@ class CampeonatoControllerUnitTest {
 
       // when // then
       assertThrows(CampeonatoNaoEncontradoException.class, () -> controller.buscarCampeonato(_2003));
+    }
+
+  }
+
+  @Nested
+  @DisplayName("ao tentar listar campeonatos")
+  class ListarCampeonatos {
+
+    @Test
+    @DisplayName("inicia o caso de uso para listagem de campeonatos")
+    void inicia_caso_de_uso_para_listagem_de_campeonatos() {
+      //given
+      when(listagemCampeonatoUseCase.executar()).thenReturn(ListagemCampeonatoUseCaseTest.output());
+
+      // when
+      controller.listarCampeonatos();
+
+      // then
+      verify(listagemCampeonatoUseCase).executar();
+    }
+
+    @Test
+    @DisplayName("retorna lista com campeonatos")
+    void retorna_dados_campeonato_encontrado() {
+      //given
+      when(listagemCampeonatoUseCase.executar()).thenReturn(ListagemCampeonatoUseCaseTest.output());
+
+      // when
+      var retorno = controller.listarCampeonatos();
+
+      // then
+      assertThat(retorno.data()).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("retorna lista vazia quando não encontra campeonatos")
+    void lanca_excecao_quando_erro_de_criacao() {
+      //given
+      when(listagemCampeonatoUseCase.executar()).thenReturn(outputListaVazia());
+
+      // when
+      var retorno = controller.listarCampeonatos();
+
+      // then
+      assertThat(retorno.data()).isEmpty();
     }
 
   }

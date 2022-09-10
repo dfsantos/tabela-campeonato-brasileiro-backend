@@ -8,6 +8,8 @@ import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CampeonatoJaExiste
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCase;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseInput;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.NovoCampeonatoException;
+import br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCase;
+import br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCaseTest;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest._2003;
 import static br.com.dfsantos.brasileirao.campeonato.infrastructure.rest.CampeonatoControllerUnitTest.novoCampeonatoRequestBody;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseUnitTest.output;
+import static br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCaseTest.outputListaVazia;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.any;
@@ -27,8 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tags({@Tag("slice"), @Tag("rest"), @Tag("contract")})
 @WebMvcTest(CampeonatoController.class)
@@ -37,12 +39,14 @@ public class CampeonatoControllerIntegrationTest {
 
   private static final String ENDPOINT = "/v1/campeonatos";
 
-  public static final String PATH_CAMPEONATO_CRIADO = "/v1/campeonatos/2003";
-
   @MockBean
   private CriacaoCampeonatoUseCase criacaoCampeonatoUseCase;
+
   @MockBean
   private BuscaCampeonatoUseCase buscaCampeonatoUseCase;
+
+  @MockBean
+  private ListagemCampeonatoUseCase listagemCampeonatoUseCase;
 
   @Nested
   @DisplayName("Endpoint para criar campeonato")
@@ -84,6 +88,8 @@ public class CampeonatoControllerIntegrationTest {
       @Nested
       @DisplayName("quando processa com sucesso")
       class QuandoProcessaComSucesso {
+
+        public static final String PATH_CAMPEONATO_CRIADO = "/v1/campeonatos/2003";
 
         @Test
         @DisplayName("aceita Content-Type application/json")
@@ -198,6 +204,8 @@ public class CampeonatoControllerIntegrationTest {
   @DisplayName("Endpoint para buscar campeonato")
   class EndpointBuscarCampeonato {
 
+    private static final String ENDPOINT_BUSCAR_CAMPEONATO = "/v1/campeonatos/{ano}";
+
     @BeforeEach
     void setUp() throws CampeonatoNaoEncontradoException {
       given(buscaCampeonatoUseCase.executar(any(BuscaCampeonatoUseCaseInput.class)))
@@ -205,12 +213,116 @@ public class CampeonatoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("responde no path /v1/campeonatos?ano={ano}")
+    @DisplayName("responde no path /v1/campeonatos/{ano}")
+    void path_correto(@Autowired MockMvc mockMvc) throws Exception {
+      mockMvc.perform(
+          get(ENDPOINT_BUSCAR_CAMPEONATO, _2003)
+            .accept(APPLICATION_JSON)
+        ).andDo(print())
+        .andExpect(status().is(not(NOT_FOUND.value())));
+    }
+
+    @Test
+    @DisplayName("responde no método GET")
+    void metodo_correto(@Autowired MockMvc mockMvc) throws Exception {
+      mockMvc.perform(
+          get(ENDPOINT_BUSCAR_CAMPEONATO, _2003)
+            .accept(APPLICATION_JSON)
+        ).andDo(print())
+        .andExpect(status().is(not(METHOD_NOT_ALLOWED.value())));
+    }
+
+    @Nested
+    @DisplayName("quando processa com sucesso e encontra o campeonato")
+    class QuandoEncontraCampeonato {
+
+      private static final String RESPONSE_BODY = """
+            {
+              "ano": 2003,
+              "numeroParticipantes": 24,
+              "dataInicio": "2003-03-29",
+              "dataTermino": "2003-12-14"
+            }
+        """;
+
+      @BeforeEach
+      void setUp() throws CampeonatoNaoEncontradoException {
+        given(buscaCampeonatoUseCase.executar(any(BuscaCampeonatoUseCaseInput.class)))
+          .willReturn(BuscaCampeonatoUseCaseUnitTest.output());
+      }
+
+      @Test
+      @DisplayName("responde com Content-Type application/json")
+      void retorna_content_type_application_json(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT_BUSCAR_CAMPEONATO, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(status().is(not(NOT_ACCEPTABLE.value())));
+      }
+
+      @Test
+      @DisplayName("responde com status HTTP 200")
+      void retorna_status_http_200(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT_BUSCAR_CAMPEONATO, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(status().isOk());
+      }
+
+      @Test
+      @DisplayName("responde com os dados do campeonato encontrado")
+      void retorna_dados_campeonato(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT_BUSCAR_CAMPEONATO, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(content().json(RESPONSE_BODY));
+      }
+
+    }
+
+    @Nested
+    @DisplayName("quando processa com sucesso e encontra o campeonato")
+    class QuandoNaoEncontraCampeonato {
+
+      @BeforeEach
+      void setUp() throws CampeonatoNaoEncontradoException {
+        given(buscaCampeonatoUseCase.executar(any(BuscaCampeonatoUseCaseInput.class)))
+          .willThrow(CampeonatoNaoEncontradoException.class);
+      }
+
+      @Test
+      @DisplayName("responde com status HTTP 404 quando não encontra o campeonato")
+      void retorna_status_http_404(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT_BUSCAR_CAMPEONATO, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(status().isNotFound());
+      }
+
+    }
+
+  }
+
+  @Nested
+  @DisplayName("Endpoint para listar campeonatos")
+  class EndpointListarCampeonatos {
+
+    @BeforeEach
+    void setUp() {
+      given(listagemCampeonatoUseCase.executar())
+        .willReturn(ListagemCampeonatoUseCaseTest.output());
+    }
+
+    @Test
+    @DisplayName("responde no path /v1/campeonatos")
     void path_correto(@Autowired MockMvc mockMvc) throws Exception {
       mockMvc.perform(
           get(ENDPOINT)
             .accept(APPLICATION_JSON)
-            .queryParam("ano", String.valueOf(_2003))
         ).andDo(print())
         .andExpect(status().is(not(NOT_FOUND.value())));
     }
@@ -221,9 +333,87 @@ public class CampeonatoControllerIntegrationTest {
       mockMvc.perform(
           get(ENDPOINT)
             .accept(APPLICATION_JSON)
-            .queryParam("ano", String.valueOf(_2003))
         ).andDo(print())
         .andExpect(status().is(not(METHOD_NOT_ALLOWED.value())));
+    }
+
+    @Nested
+    @DisplayName("quando processa com sucesso e encontra campeonatos")
+    class QuandoEncontraCampeonatos {
+
+      private static final String RESPONSE_BODY = """
+            { "data": 
+              [{
+                "ano": 2003,
+                "numeroParticipantes": 24,
+                "dataInicio": "2003-03-29",
+                "dataTermino": "2003-12-14"
+              }]
+            }
+        """;
+
+      @BeforeEach
+      void setUp() {
+        given(listagemCampeonatoUseCase.executar())
+          .willReturn(ListagemCampeonatoUseCaseTest.output());
+      }
+
+      @Test
+      @DisplayName("responde com Content-Type application/json")
+      void retorna_content_type_application_json(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(status().is(not(NOT_ACCEPTABLE.value())));
+      }
+
+      @Test
+      @DisplayName("responde com status HTTP 200")
+      void retorna_status_http_200(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(status().isOk());
+      }
+
+      @Test
+      @DisplayName("responde com os dados dos campeonatos encontrados numa lista")
+      void retorna_lista_campeonatos(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(content().json(RESPONSE_BODY));
+      }
+
+    }
+
+    @Nested
+    @DisplayName("quando processa com sucesso e não encontra campeonatos")
+    class QuandoNaoEncontraCampeonatos {
+
+      private static final String RESPONSE_BODY = """
+            { "data": [] }
+        """;
+
+      @BeforeEach
+      void setUp() {
+        given(listagemCampeonatoUseCase.executar())
+          .willReturn(outputListaVazia());
+      }
+
+      @Test
+      @DisplayName("responde com lista vazia de campeonatos")
+      void retorna_lista_campeonatos_vazia(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(
+            get(ENDPOINT, _2003)
+              .accept(APPLICATION_JSON)
+          ).andDo(print())
+          .andExpect(content().json(RESPONSE_BODY));
+      }
+
     }
 
   }

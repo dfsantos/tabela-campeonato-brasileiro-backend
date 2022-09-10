@@ -4,7 +4,7 @@ import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
 
 import java.util.List;
 
-record ListagemCampeonatoUseCaseOutput(
+public record ListagemCampeonatoUseCaseOutput(
   List<Campeonato> campeonatos
 ) {
 }

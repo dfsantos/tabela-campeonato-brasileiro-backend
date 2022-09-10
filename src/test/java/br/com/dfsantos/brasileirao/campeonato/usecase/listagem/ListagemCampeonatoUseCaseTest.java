@@ -1,15 +1,12 @@
 package br.com.dfsantos.brasileirao.campeonato.usecase.listagem;
 
 import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.RepositorioCampeonato;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.campeonato;
@@ -20,7 +17,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.mock;
 
 @DisplayName("Caso de uso: listar campeonatos")
-class ListagemCampeonatoUseCaseTest {
+public class ListagemCampeonatoUseCaseTest {
 
   private ListagemCampeonatoUseCase useCase;
 
@@ -63,6 +60,14 @@ class ListagemCampeonatoUseCaseTest {
       // then
       assertThat(retorno.campeonatos()).containsAll(campeonatos);
     }
+  }
+
+  public static ListagemCampeonatoUseCaseOutput output() {
+    return new ListagemCampeonatoUseCaseOutput(newArrayList(campeonato()));
+  }
+
+  public static ListagemCampeonatoUseCaseOutput outputListaVazia() {
+    return new ListagemCampeonatoUseCaseOutput(emptyList());
   }
 
 }
