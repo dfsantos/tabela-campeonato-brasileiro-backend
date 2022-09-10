@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static br.com.dfsantos.brasileirao.campeonato.infrastructure.rest.CampeonatoControllerUnitTest.novoCampeonatoRequestBody;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseUnitTest.output;
@@ -61,24 +62,14 @@ public class CampeonatoControllerIntegrationTest {
       @Test
       @DisplayName("responde no path /v1/campeonatos")
       void path_correto(@Autowired MockMvc mockMvc) throws Exception {
-        mockMvc.perform(
-            post(ENDPOINT, novoCampeonatoRequestBody())
-              .accept(APPLICATION_JSON)
-              .contentType(APPLICATION_JSON)
-              .content(REQUEST_BODY)
-          ).andDo(print())
+        gerarRequisicaoValida(mockMvc)
           .andExpect(status().is(not(NOT_FOUND.value())));
       }
 
       @Test
       @DisplayName("responde no método POST")
       void metodo_correto(@Autowired MockMvc mockMvc) throws Exception {
-        mockMvc.perform(
-            post(ENDPOINT, novoCampeonatoRequestBody())
-              .accept(APPLICATION_JSON)
-              .contentType(APPLICATION_JSON)
-              .content(REQUEST_BODY)
-          ).andDo(print())
+        gerarRequisicaoValida(mockMvc)
           .andExpect(status().is(not(METHOD_NOT_ALLOWED.value())));
       }
 
@@ -89,48 +80,28 @@ public class CampeonatoControllerIntegrationTest {
         @Test
         @DisplayName("aceita Content-Type application/json")
         void aceita_content_type_application_json(@Autowired MockMvc mockMvc) throws Exception {
-          mockMvc.perform(
-              post(ENDPOINT, novoCampeonatoRequestBody())
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(status().is(not(UNSUPPORTED_MEDIA_TYPE.value())));
         }
 
         @Test
         @DisplayName("responde com Content-Type application/json")
         void retorna_content_type_application_json(@Autowired MockMvc mockMvc) throws Exception {
-          mockMvc.perform(
-              post(ENDPOINT, novoCampeonatoRequestBody())
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(status().is(not(NOT_ACCEPTABLE.value())));
         }
 
         @Test
         @DisplayName("responde com status HTTP 201")
         void retorna_status_http_201(@Autowired MockMvc mockMvc) throws Exception {
-          mockMvc.perform(
-              post(ENDPOINT, novoCampeonatoRequestBody())
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(status().isCreated());
         }
 
         @Test
         @DisplayName("responde Location para recurso criado")
         void retorna_location_para_recurso_criado(@Autowired MockMvc mockMvc) throws Exception {
-          mockMvc.perform(
-              post(ENDPOINT, novoCampeonatoRequestBody())
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(header().string(LOCATION, PATH_CAMPEONATO_CRIADO));
         }
 
@@ -166,12 +137,7 @@ public class CampeonatoControllerIntegrationTest {
           given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
             .willThrow(CampeonatoJaExisteException.class);
 
-          mockMvc.perform(
-              post(ENDPOINT)
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(status().isConflict());
         }
 
@@ -181,12 +147,7 @@ public class CampeonatoControllerIntegrationTest {
           given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
             .willThrow(CampeonatoJaExisteException.class);
 
-          mockMvc.perform(
-              post(ENDPOINT)
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(status().reason(CampeonatoJaExisteException.MESSAGE));
         }
 
@@ -196,12 +157,7 @@ public class CampeonatoControllerIntegrationTest {
           given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
             .willThrow(NovoCampeonatoException.class);
 
-          mockMvc.perform(
-              post(ENDPOINT)
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(status().isUnprocessableEntity());
         }
 
@@ -211,15 +167,19 @@ public class CampeonatoControllerIntegrationTest {
           given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
             .willThrow(NovoCampeonatoException.class);
 
-          mockMvc.perform(
-              post(ENDPOINT)
-                .accept(APPLICATION_JSON)
-                .contentType(APPLICATION_JSON)
-                .content(REQUEST_BODY)
-            ).andDo(print())
+          gerarRequisicaoValida(mockMvc)
             .andExpect(status().reason(NovoCampeonatoException.MESSAGE));
         }
 
+      }
+
+      private ResultActions gerarRequisicaoValida(MockMvc mockMvc) throws Exception {
+        return mockMvc.perform(
+          post(ENDPOINT)
+            .accept(APPLICATION_JSON)
+            .contentType(APPLICATION_JSON)
+            .content(REQUEST_BODY)
+        ).andDo(print());
       }
 
     }
