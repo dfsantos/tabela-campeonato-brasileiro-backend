@@ -30,6 +30,18 @@ public class Campeonato {
     return ano;
   }
 
+  public Integer getNumeroParticipantes() {
+    return numeroParticipantes;
+  }
+
+  public LocalDate getDataInicio() {
+    return dataInicio;
+  }
+
+  public LocalDate getDataTermino() {
+    return dataTermino;
+  }
+
   private void isValido() throws Exception {
     if (isNull(ano) || ano.equals(0)) {
       throw new AnoCampeonatoInvalidoException();

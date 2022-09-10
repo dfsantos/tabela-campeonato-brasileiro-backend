@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DisplayName("Campeonato")
 public class CampeonatoUnitTest {
 
-  public static final int ANO = 2003;
+  public static final int _2003 = 2003;
   public static final int NUMERO_PARTICIPANTES = 24;
-  public static final LocalDate _29_03_2003 = of(ANO, 3, 29);
-  public static final LocalDate _14_12_2003 = of(ANO, 12, 14);
+  public static final LocalDate _29_03_2003 = of(_2003, 3, 29);
+  public static final LocalDate _14_12_2003 = of(_2003, 12, 14);
 
   @Nested
   @DisplayName("quando for criado")
@@ -28,7 +28,7 @@ public class CampeonatoUnitTest {
     @Test
     @DisplayName("não gera erro para dados válidos")
     void tem_os_dados_de_cadastro_completos() throws Exception {
-      var campeonato = new Campeonato(ANO, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
+      var campeonato = new Campeonato(_2003, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
 
       assertEquals(campeonato(), campeonato);
     }
@@ -53,7 +53,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para número de participantes nulo")
     void campeonato_invalido_quando_numeroParticipantes_for_nulo() {
       assertThrows(NumeroParticipantesInvalidoException.class,
-        () -> new Campeonato(ANO, null, _29_03_2003, _14_12_2003)
+        () -> new Campeonato(_2003, null, _29_03_2003, _14_12_2003)
       );
     }
 
@@ -61,7 +61,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para número de participantes zero")
     void campeonato_invalido_quando_numeroParticipantes_for_zero() {
       assertThrows(NumeroParticipantesInvalidoException.class,
-        () -> new Campeonato(ANO, 0, _29_03_2003, _14_12_2003)
+        () -> new Campeonato(_2003, 0, _29_03_2003, _14_12_2003)
       );
     }
 
@@ -69,7 +69,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para data de término anterior à data de início")
     void campeonato_invalido_quando_dataTermino_anterio_a_dataInicio() {
       assertThrows(PeriodoCampeonatoInvalidoException.class,
-        () -> new Campeonato(ANO, NUMERO_PARTICIPANTES, _14_12_2003, _29_03_2003)
+        () -> new Campeonato(_2003, NUMERO_PARTICIPANTES, _14_12_2003, _29_03_2003)
       );
     }
 
@@ -77,7 +77,7 @@ public class CampeonatoUnitTest {
 
   public static Campeonato campeonato() {
     try {
-      return new Campeonato(ANO, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
+      return new Campeonato(_2003, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

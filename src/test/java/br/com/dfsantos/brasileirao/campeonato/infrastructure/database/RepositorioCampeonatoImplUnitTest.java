@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.ANO;
+import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest._2003;
 import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.campeonato;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,7 +23,7 @@ class RepositorioCampeonatoImplUnitTest {
   @DisplayName("retorna resultado vazio quando campeonato não é localizado por ano")
   void resultado_vazio_quando_nao_encontra_campeonato_por_ano() {
     // expect
-    assertThat(repositorio.localizarPorAno(ANO)).isEmpty();
+    assertThat(repositorio.localizarPorAno(_2003)).isEmpty();
   }
 
   @Test
@@ -33,7 +33,7 @@ class RepositorioCampeonatoImplUnitTest {
     repositorio.armazenar(campeonato());
 
     // expect
-    assertThat(repositorio.localizarPorAno(ANO)).isPresent();
+    assertThat(repositorio.localizarPorAno(_2003)).isPresent();
   }
 
 }

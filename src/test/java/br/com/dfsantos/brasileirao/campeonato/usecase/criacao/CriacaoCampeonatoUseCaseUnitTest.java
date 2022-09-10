@@ -80,7 +80,7 @@ public class CriacaoCampeonatoUseCaseUnitTest {
     @DisplayName("campeonato já existe")
     void campeonato_ja_existe() throws NovoCampeonatoException {
       // given
-      given(repositorioCampeonato.localizarPorAno(ANO)).willReturn(of(campeonato()));
+      given(repositorioCampeonato.localizarPorAno(_2003)).willReturn(of(campeonato()));
 
       // expect
       assertThrows(CampeonatoJaExisteException.class, () -> casoDeUso.executar(inputValido()));
@@ -89,15 +89,15 @@ public class CriacaoCampeonatoUseCaseUnitTest {
   }
 
   public static CriacaoCampeonatoUseCaseInput inputValido() {
-    return new CriacaoCampeonatoUseCaseInput(ANO, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
+    return new CriacaoCampeonatoUseCaseInput(_2003, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
   }
 
   public static CriacaoCampeonatoUseCaseInput inputInvalido() {
-    return new CriacaoCampeonatoUseCaseInput(ANO, 0, _29_03_2003, _14_12_2003);
+    return new CriacaoCampeonatoUseCaseInput(_2003, 0, _29_03_2003, _14_12_2003);
   }
 
   public static CriacaoCampeonatoUseCaseOutput output() {
-    return new CriacaoCampeonatoUseCaseOutput(ANO);
+    return new CriacaoCampeonatoUseCaseOutput(_2003);
   }
 
 }
