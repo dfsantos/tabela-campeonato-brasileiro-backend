@@ -21,10 +21,10 @@ public class CriacaoCampeonatoUseCase {
   private Campeonato from(CriacaoCampeonatoUseCaseInput input) throws NovoCampeonatoException {
     try {
       return new Campeonato(
-          input.ano(),
-          input.numeroParticipantes(),
-          input.dataInicio(),
-          input.dataTermino()
+        input.ano(),
+        input.numeroParticipantes(),
+        input.dataInicio(),
+        input.dataTermino()
       );
     } catch (Exception e) {
       throw new NovoCampeonatoException();
@@ -39,7 +39,7 @@ public class CriacaoCampeonatoUseCase {
 
   private CriacaoCampeonatoUseCaseOutput criar(Campeonato campeonato) {
     return new CriacaoCampeonatoUseCaseOutput(
-        campeonato.getAno()
+      campeonato.getAno()
     );
   }
 

@@ -37,7 +37,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para ano nulo")
     void campeonato_invalido_quando_ano_for_nulo() {
       assertThrows(AnoCampeonatoInvalidoException.class,
-          () -> new Campeonato(null, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003)
+        () -> new Campeonato(null, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003)
       );
     }
 
@@ -45,7 +45,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para ano zero")
     void campeonato_invalido_quando_ano_for_zero() {
       assertThrows(AnoCampeonatoInvalidoException.class,
-          () -> new Campeonato(0, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003)
+        () -> new Campeonato(0, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003)
       );
     }
 
@@ -53,7 +53,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para número de participantes nulo")
     void campeonato_invalido_quando_numeroParticipantes_for_nulo() {
       assertThrows(NumeroParticipantesInvalidoException.class,
-          () -> new Campeonato(ANO, null, _29_03_2003, _14_12_2003)
+        () -> new Campeonato(ANO, null, _29_03_2003, _14_12_2003)
       );
     }
 
@@ -61,7 +61,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para número de participantes zero")
     void campeonato_invalido_quando_numeroParticipantes_for_zero() {
       assertThrows(NumeroParticipantesInvalidoException.class,
-          () -> new Campeonato(ANO, 0, _29_03_2003, _14_12_2003)
+        () -> new Campeonato(ANO, 0, _29_03_2003, _14_12_2003)
       );
     }
 
@@ -69,7 +69,7 @@ public class CampeonatoUnitTest {
     @DisplayName("gera erro para data de término anterior à data de início")
     void campeonato_invalido_quando_dataTermino_anterio_a_dataInicio() {
       assertThrows(PeriodoCampeonatoInvalidoException.class,
-          () -> new Campeonato(ANO, NUMERO_PARTICIPANTES, _14_12_2003, _29_03_2003)
+        () -> new Campeonato(ANO, NUMERO_PARTICIPANTES, _14_12_2003, _29_03_2003)
       );
     }
 

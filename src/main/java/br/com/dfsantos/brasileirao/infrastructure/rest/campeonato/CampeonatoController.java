@@ -31,10 +31,10 @@ public class CampeonatoController {
   public ResponseEntity criarCampeonato(@RequestBody NovoCampeonatoRequestBody requestBody) {
     try {
       CriacaoCampeonatoUseCaseOutput output = criacaoCampeonato.executar(new CriacaoCampeonatoUseCaseInput(
-          requestBody.ano(),
-          requestBody.numeroParticipantes(),
-          requestBody.dataInicio(),
-          requestBody.dataTermino()
+        requestBody.ano(),
+        requestBody.numeroParticipantes(),
+        requestBody.dataInicio(),
+        requestBody.dataTermino()
       ));
       return created(URI.create(PATH + "/" + output.ano())).build();
     } catch (CampeonatoJaExisteException e) {

@@ -40,13 +40,13 @@ public class CampeonatoControllerIntegrationTest {
   class EndpointCriarCampeonatos {
 
     private static final String REQUEST_BODY = """
-            {
-              "ano": 2003,
-              "numeroParticipantes": 24,
-              "dataInicio": "2003-03-29",
-              "dataTermino": "2003-12-14"
-            }
-        """;
+          {
+            "ano": 2003,
+            "numeroParticipantes": 24,
+            "dataInicio": "2003-03-29",
+            "dataTermino": "2003-12-14"
+          }
+      """;
 
     @Nested
     @DisplayName("atende ao contrato que")
@@ -55,31 +55,31 @@ public class CampeonatoControllerIntegrationTest {
       @BeforeEach
       void setUp() throws NovoCampeonatoException {
         given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
-            .willReturn(output());
+          .willReturn(output());
       }
 
       @Test
       @DisplayName("responde no path /v1/campeonatos")
       void path_correto(@Autowired MockMvc mockMvc) throws Exception {
         mockMvc.perform(
-                post(ENDPOINT, novoCampeonatoRequestBody())
-                    .accept(APPLICATION_JSON)
-                    .contentType(APPLICATION_JSON)
-                    .content(REQUEST_BODY)
-            ).andDo(print())
-            .andExpect(status().is(not(NOT_FOUND.value())));
+            post(ENDPOINT, novoCampeonatoRequestBody())
+              .accept(APPLICATION_JSON)
+              .contentType(APPLICATION_JSON)
+              .content(REQUEST_BODY)
+          ).andDo(print())
+          .andExpect(status().is(not(NOT_FOUND.value())));
       }
 
       @Test
       @DisplayName("responde no método POST")
       void metodo_correto(@Autowired MockMvc mockMvc) throws Exception {
         mockMvc.perform(
-                post(ENDPOINT, novoCampeonatoRequestBody())
-                    .accept(APPLICATION_JSON)
-                    .contentType(APPLICATION_JSON)
-                    .content(REQUEST_BODY)
-            ).andDo(print())
-            .andExpect(status().is(not(METHOD_NOT_ALLOWED.value())));
+            post(ENDPOINT, novoCampeonatoRequestBody())
+              .accept(APPLICATION_JSON)
+              .contentType(APPLICATION_JSON)
+              .content(REQUEST_BODY)
+          ).andDo(print())
+          .andExpect(status().is(not(METHOD_NOT_ALLOWED.value())));
       }
 
       @Nested
@@ -90,48 +90,48 @@ public class CampeonatoControllerIntegrationTest {
         @DisplayName("aceita Content-Type application/json")
         void aceita_content_type_application_json(@Autowired MockMvc mockMvc) throws Exception {
           mockMvc.perform(
-                  post(ENDPOINT, novoCampeonatoRequestBody())
-                      .accept(APPLICATION_JSON)
-                      .contentType(APPLICATION_JSON)
-                      .content(REQUEST_BODY)
-              ).andDo(print())
-              .andExpect(status().is(not(UNSUPPORTED_MEDIA_TYPE.value())));
+              post(ENDPOINT, novoCampeonatoRequestBody())
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(status().is(not(UNSUPPORTED_MEDIA_TYPE.value())));
         }
 
         @Test
         @DisplayName("responde com Content-Type application/json")
         void retorna_content_type_application_json(@Autowired MockMvc mockMvc) throws Exception {
           mockMvc.perform(
-                  post(ENDPOINT, novoCampeonatoRequestBody())
-                      .accept(APPLICATION_JSON)
-                      .contentType(APPLICATION_JSON)
-                      .content(REQUEST_BODY)
-              ).andDo(print())
-              .andExpect(status().is(not(NOT_ACCEPTABLE.value())));
+              post(ENDPOINT, novoCampeonatoRequestBody())
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(status().is(not(NOT_ACCEPTABLE.value())));
         }
 
         @Test
         @DisplayName("responde com status HTTP 201")
         void retorna_status_http_201(@Autowired MockMvc mockMvc) throws Exception {
           mockMvc.perform(
-                  post(ENDPOINT, novoCampeonatoRequestBody())
-                      .accept(APPLICATION_JSON)
-                      .contentType(APPLICATION_JSON)
-                      .content(REQUEST_BODY)
-              ).andDo(print())
-              .andExpect(status().isCreated());
+              post(ENDPOINT, novoCampeonatoRequestBody())
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(status().isCreated());
         }
 
         @Test
         @DisplayName("responde Location para recurso criado")
         void retorna_location_para_recurso_criado(@Autowired MockMvc mockMvc) throws Exception {
           mockMvc.perform(
-                  post(ENDPOINT, novoCampeonatoRequestBody())
-                      .accept(APPLICATION_JSON)
-                      .contentType(APPLICATION_JSON)
-                      .content(REQUEST_BODY)
-              ).andDo(print())
-              .andExpect(header().string(LOCATION, PATH_CAMPEONATO_CRIADO));
+              post(ENDPOINT, novoCampeonatoRequestBody())
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(header().string(LOCATION, PATH_CAMPEONATO_CRIADO));
         }
 
       }
@@ -146,12 +146,12 @@ public class CampeonatoControllerIntegrationTest {
         @DisplayName("responde com status HTTP 400")
         void retorna_status_http_400(@Autowired MockMvc mockMvc) throws Exception {
           mockMvc.perform(
-                  post(ENDPOINT, novoCampeonatoRequestBody())
-                      .accept(APPLICATION_JSON)
-                      .contentType(APPLICATION_JSON)
-                      .content(REQUEST_BODY_INVALIDO)
-              ).andDo(print())
-              .andExpect(status().isBadRequest());
+              post(ENDPOINT, novoCampeonatoRequestBody())
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY_INVALIDO)
+            ).andDo(print())
+            .andExpect(status().isBadRequest());
         }
 
       }
@@ -164,30 +164,30 @@ public class CampeonatoControllerIntegrationTest {
         @DisplayName("responde com status HTTP 409 quando recurso já existe")
         void retorna_status_http_409_quando_recurso_ja_existe(@Autowired MockMvc mockMvc) throws Exception {
           given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
-              .willThrow(CampeonatoJaExisteException.class);
+            .willThrow(CampeonatoJaExisteException.class);
 
           mockMvc.perform(
-                  post(ENDPOINT)
-                      .accept(APPLICATION_JSON)
-                      .contentType(APPLICATION_JSON)
-                      .content(REQUEST_BODY)
-              ).andDo(print())
-              .andExpect(status().isConflict());
+              post(ENDPOINT)
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(status().isConflict());
         }
 
         @Test
         @DisplayName("responde com status HTTP 422 não consegue processar a requisição")
         void retorna_status_http_422_quando_nao_consegue_processar(@Autowired MockMvc mockMvc) throws Exception {
           given(criacaoCampeonatoUseCase.executar(any(CriacaoCampeonatoUseCaseInput.class)))
-              .willThrow(NovoCampeonatoException.class);
+            .willThrow(NovoCampeonatoException.class);
 
           mockMvc.perform(
-                  post(ENDPOINT)
-                      .accept(APPLICATION_JSON)
-                      .contentType(APPLICATION_JSON)
-                      .content(REQUEST_BODY)
-              ).andDo(print())
-              .andExpect(status().isUnprocessableEntity());
+              post(ENDPOINT)
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .content(REQUEST_BODY)
+            ).andDo(print())
+            .andExpect(status().isUnprocessableEntity());
         }
 
       }
