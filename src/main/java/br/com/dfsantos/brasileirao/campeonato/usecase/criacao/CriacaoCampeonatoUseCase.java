@@ -38,6 +38,7 @@ public class CriacaoCampeonatoUseCase {
   }
 
   private CriacaoCampeonatoUseCaseOutput criar(Campeonato campeonato) {
+    repositorioCampeonato.armazenar(campeonato);
     return new CriacaoCampeonatoUseCaseOutput(
       campeonato.getAno()
     );

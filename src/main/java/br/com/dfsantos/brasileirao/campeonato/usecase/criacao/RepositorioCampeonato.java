@@ -8,4 +8,6 @@ public interface RepositorioCampeonato {
 
   Optional<Campeonato> localizarPorAno(Integer ano);
 
+  void armazenar(Campeonato campeonato);
+
 }

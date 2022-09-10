@@ -1,5 +1,6 @@
 package br.com.dfsantos.brasileirao.campeonato.usecase.criacao;
 
+import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -8,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.*;
 import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @DisplayName("Caso de uso: criar campeonato")
 public class CriacaoCampeonatoUseCaseUnitTest {
@@ -45,6 +48,19 @@ public class CriacaoCampeonatoUseCaseUnitTest {
 
       // then
       assertEquals(input.ano(), output.ano());
+    }
+
+    @Test
+    @DisplayName("o campeonato é armazenado")
+    void campeonato_armazenado() throws NovoCampeonatoException {
+      // given
+      var input = inputValido();
+
+      // when
+      var output = casoDeUso.executar(input);
+
+      // then
+      verify(repositorioCampeonato).armazenar(any(Campeonato.class));
     }
 
   }
