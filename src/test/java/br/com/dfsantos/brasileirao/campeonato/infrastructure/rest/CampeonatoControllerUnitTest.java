@@ -169,7 +169,7 @@ class CampeonatoControllerUnitTest {
   }
 
   public static BuscaCampeonatoResponseBody buscaCampeonatoResponseBody() {
-    return new BuscaCampeonatoResponseBody(_2003, NUMERO_PARTICIPANTES, _29_03_2003, _14_12_2003);
+    return new BuscaCampeonatoResponseBody(BuscaCampeonatoUseCaseUnitTest.output());
   }
 
 }
