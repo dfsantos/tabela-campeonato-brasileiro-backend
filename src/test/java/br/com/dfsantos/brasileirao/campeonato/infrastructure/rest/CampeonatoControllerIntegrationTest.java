@@ -1,5 +1,9 @@
 package br.com.dfsantos.brasileirao.campeonato.infrastructure.rest;
 
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.BuscaCampeonatoUseCase;
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.BuscaCampeonatoUseCaseInput;
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.BuscaCampeonatoUseCaseUnitTest;
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.CampeonatoNaoEncontradoException;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CampeonatoJaExisteException;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCase;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseInput;
@@ -11,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest._2003;
 import static br.com.dfsantos.brasileirao.campeonato.infrastructure.rest.CampeonatoControllerUnitTest.novoCampeonatoRequestBody;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseUnitTest.output;
 import static org.hamcrest.Matchers.not;
@@ -19,6 +24,7 @@ import static org.mockito.Mockito.any;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -35,6 +41,8 @@ public class CampeonatoControllerIntegrationTest {
 
   @MockBean
   private CriacaoCampeonatoUseCase criacaoCampeonatoUseCase;
+  @MockBean
+  private BuscaCampeonatoUseCase buscaCampeonatoUseCase;
 
   @Nested
   @DisplayName("Endpoint para criar campeonato")
@@ -182,6 +190,40 @@ public class CampeonatoControllerIntegrationTest {
         ).andDo(print());
       }
 
+    }
+
+  }
+
+  @Nested
+  @DisplayName("Endpoint para buscar campeonato")
+  class EndpointBuscarCampeonato {
+
+    @BeforeEach
+    void setUp() throws CampeonatoNaoEncontradoException {
+      given(buscaCampeonatoUseCase.executar(any(BuscaCampeonatoUseCaseInput.class)))
+        .willReturn(BuscaCampeonatoUseCaseUnitTest.output());
+    }
+
+    @Test
+    @DisplayName("responde no path /v1/campeonatos?ano={ano}")
+    void path_correto(@Autowired MockMvc mockMvc) throws Exception {
+      mockMvc.perform(
+          get(ENDPOINT)
+            .accept(APPLICATION_JSON)
+            .queryParam("ano", String.valueOf(_2003))
+        ).andDo(print())
+        .andExpect(status().is(not(NOT_FOUND.value())));
+    }
+
+    @Test
+    @DisplayName("responde no método GET")
+    void metodo_correto(@Autowired MockMvc mockMvc) throws Exception {
+      mockMvc.perform(
+          get(ENDPOINT)
+            .accept(APPLICATION_JSON)
+            .queryParam("ano", String.valueOf(_2003))
+        ).andDo(print())
+        .andExpect(status().is(not(METHOD_NOT_ALLOWED.value())));
     }
 
   }

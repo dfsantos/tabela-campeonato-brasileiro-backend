@@ -1,5 +1,9 @@
 package br.com.dfsantos.brasileirao.campeonato.infrastructure.rest;
 
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.BuscaCampeonatoUseCase;
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.BuscaCampeonatoUseCaseInput;
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.BuscaCampeonatoUseCaseOutput;
+import br.com.dfsantos.brasileirao.campeonato.usecase.busca.CampeonatoNaoEncontradoException;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +22,14 @@ public class CampeonatoController {
 
   public static final String PATH = "/v1/campeonatos";
   private final CriacaoCampeonatoUseCase criacaoCampeonato;
+  private final BuscaCampeonatoUseCase buscaCampeonatoUseCase;
 
-  public CampeonatoController(final CriacaoCampeonatoUseCase criacaoCampeonato) {
+  public CampeonatoController(final CriacaoCampeonatoUseCase criacaoCampeonato,
+                              final BuscaCampeonatoUseCase buscaCampeonatoUseCase) {
     this.criacaoCampeonato = criacaoCampeonato;
+    this.buscaCampeonatoUseCase = buscaCampeonatoUseCase;
   }
 
-  @RequestMapping
   @PostMapping(produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
   public ResponseEntity criarCampeonato(@RequestBody NovoCampeonatoRequestBody requestBody) throws NovoCampeonatoException {
     CriacaoCampeonatoUseCaseOutput output = criacaoCampeonato.executar(new CriacaoCampeonatoUseCaseInput(
@@ -33,6 +39,17 @@ public class CampeonatoController {
       requestBody.dataTermino()
     ));
     return created(URI.create(PATH + "/" + output.ano())).build();
+  }
+
+  @GetMapping(produces = {APPLICATION_JSON_VALUE})
+  public BuscaCampeonatoResponseBody buscarCampeonato(@RequestParam("ano") Integer ano) throws CampeonatoNaoEncontradoException {
+    BuscaCampeonatoUseCaseOutput output = buscaCampeonatoUseCase.executar(new BuscaCampeonatoUseCaseInput(ano));
+    return new BuscaCampeonatoResponseBody(
+      output.ano(),
+      output.numeroParticipantes(),
+      output.dataInicio(),
+      output.dataTermino()
+    );
   }
 
   @ResponseStatus(code = CONFLICT, reason = CampeonatoJaExisteException.MESSAGE)
