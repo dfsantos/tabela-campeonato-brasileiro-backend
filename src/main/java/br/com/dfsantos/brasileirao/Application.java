@@ -1,6 +1,6 @@
 package br.com.dfsantos.brasileirao;
 
-import br.com.dfsantos.brasileirao.usecase.campeonato.criacao.RepositorioCampeonato;
+import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.RepositorioCampeonato;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
