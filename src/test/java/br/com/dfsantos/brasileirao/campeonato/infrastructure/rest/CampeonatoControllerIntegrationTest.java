@@ -237,11 +237,13 @@ public class CampeonatoControllerIntegrationTest {
     class QuandoEncontraCampeonato {
 
       private static final String RESPONSE_BODY = """
-            {
-              "ano": 2003,
-              "numeroParticipantes": 24,
-              "dataInicio": "2003-03-29",
-              "dataTermino": "2003-12-14"
+            { 
+              "data": {
+                "ano": 2003,
+                "numeroParticipantes": 24,
+                "dataInicio": "2003-03-29",
+                "dataTermino": "2003-12-14"
+              }
             }
         """;
 
@@ -284,7 +286,7 @@ public class CampeonatoControllerIntegrationTest {
     }
 
     @Nested
-    @DisplayName("quando processa com sucesso e encontra o campeonato")
+    @DisplayName("quando processa com sucesso e não encontra o campeonato")
     class QuandoNaoEncontraCampeonato {
 
       @BeforeEach

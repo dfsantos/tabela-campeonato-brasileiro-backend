@@ -49,12 +49,7 @@ public class CampeonatoController {
   @GetMapping(path = "/{ano}", produces = {APPLICATION_JSON_VALUE})
   public BuscaCampeonatoResponseBody buscarCampeonato(@PathVariable("ano") Integer ano) throws CampeonatoNaoEncontradoException {
     BuscaCampeonatoUseCaseOutput output = buscaCampeonatoUseCase.executar(new BuscaCampeonatoUseCaseInput(ano));
-    return new BuscaCampeonatoResponseBody(
-      output.ano(),
-      output.numeroParticipantes(),
-      output.dataInicio(),
-      output.dataTermino()
-    );
+    return new BuscaCampeonatoResponseBody(output);
   }
 
   @GetMapping(produces = {APPLICATION_JSON_VALUE})
