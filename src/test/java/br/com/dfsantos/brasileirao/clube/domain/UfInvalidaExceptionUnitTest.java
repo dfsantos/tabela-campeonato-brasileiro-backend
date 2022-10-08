@@ -1,19 +1,20 @@
-package br.com.dfsantos.brasileirao.campeonato.domain.entity.exception;
+package br.com.dfsantos.brasileirao.clube.domain;
 
+import br.com.dfsantos.brasileirao.clube.domain.UfInvalidaException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@DisplayName("AnoCampeonatoInvalidoException")
-class AnoCampeonatoInvalidoExceptionUnitTest {
+@DisplayName("UfInvalidaException")
+class UfInvalidaExceptionUnitTest {
 
   @Test
   @DisplayName("descreve a causa do erro")
   void descreve_motivo_excecao() {
     assertThatThrownBy(() -> {
-      throw new AnoCampeonatoInvalidoException();
-    }).hasMessage("Ano do campeonato é inválido.");
+      throw new UfInvalidaException();
+    }).hasMessage("UF inválida.");
   }
 
 }

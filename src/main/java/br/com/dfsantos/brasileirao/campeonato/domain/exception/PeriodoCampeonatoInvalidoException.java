@@ -1,4 +1,4 @@
-package br.com.dfsantos.brasileirao.campeonato.domain.entity.exception;
+package br.com.dfsantos.brasileirao.campeonato.domain.exception;
 
 public class PeriodoCampeonatoInvalidoException extends Exception {
 

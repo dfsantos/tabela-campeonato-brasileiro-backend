@@ -1,4 +1,4 @@
-package br.com.dfsantos.brasileirao.campeonato.domain.entity.exception;
+package br.com.dfsantos.brasileirao.campeonato.domain.exception;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest._2003;
-import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.campeonato;
+import static br.com.dfsantos.brasileirao.campeonato.domain.CampeonatoUnitTest._2003;
+import static br.com.dfsantos.brasileirao.campeonato.domain.CampeonatoUnitTest.campeonato;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Repositório de campeonatos")

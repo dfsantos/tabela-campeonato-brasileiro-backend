@@ -1,6 +1,6 @@
 package br.com.dfsantos.brasileirao.campeonato.usecase.criacao;
 
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
+import br.com.dfsantos.brasileirao.campeonato.domain.Campeonato;
 import org.springframework.stereotype.Component;
 
 @Component

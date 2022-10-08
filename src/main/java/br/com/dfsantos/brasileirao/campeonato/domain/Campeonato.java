@@ -1,8 +1,8 @@
-package br.com.dfsantos.brasileirao.campeonato.domain.entity;
+package br.com.dfsantos.brasileirao.campeonato.domain;
 
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.exception.AnoCampeonatoInvalidoException;
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.exception.NumeroParticipantesInvalidoException;
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.exception.PeriodoCampeonatoInvalidoException;
+import br.com.dfsantos.brasileirao.campeonato.domain.exception.AnoCampeonatoInvalidoException;
+import br.com.dfsantos.brasileirao.campeonato.domain.exception.NumeroParticipantesInvalidoException;
+import br.com.dfsantos.brasileirao.campeonato.domain.exception.PeriodoCampeonatoInvalidoException;
 
 import java.time.LocalDate;
 import java.util.Objects;

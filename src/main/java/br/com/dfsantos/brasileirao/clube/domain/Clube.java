@@ -1,4 +1,4 @@
-package br.com.dfsantos.brasileirao.clube;
+package br.com.dfsantos.brasileirao.clube.domain;
 
 import static java.util.Objects.isNull;
 

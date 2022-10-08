@@ -1,12 +1,12 @@
 package br.com.dfsantos.brasileirao.campeonato.usecase.criacao;
 
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
+import br.com.dfsantos.brasileirao.campeonato.domain.Campeonato;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.*;
+import static br.com.dfsantos.brasileirao.campeonato.domain.CampeonatoUnitTest.*;
 import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

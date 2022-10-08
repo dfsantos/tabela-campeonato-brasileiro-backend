@@ -17,7 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest._2003;
+import static br.com.dfsantos.brasileirao.campeonato.domain.CampeonatoUnitTest._2003;
 import static br.com.dfsantos.brasileirao.campeonato.infrastructure.rest.CampeonatoControllerUnitTest.novoCampeonatoRequestBody;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseUnitTest.output;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCaseTest.outputListaVazia;

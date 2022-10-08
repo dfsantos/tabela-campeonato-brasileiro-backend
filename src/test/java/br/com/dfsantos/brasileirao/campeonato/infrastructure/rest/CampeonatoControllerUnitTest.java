@@ -15,7 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.*;
+import static br.com.dfsantos.brasileirao.campeonato.domain.CampeonatoUnitTest.*;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.criacao.CriacaoCampeonatoUseCaseUnitTest.output;
 import static br.com.dfsantos.brasileirao.campeonato.usecase.listagem.ListagemCampeonatoUseCaseTest.outputListaVazia;
 import static org.assertj.core.api.Assertions.assertThat;

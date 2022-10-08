@@ -1,6 +1,6 @@
 package br.com.dfsantos.brasileirao.campeonato.infrastructure.rest;
 
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
+import br.com.dfsantos.brasileirao.campeonato.domain.Campeonato;
 
 import java.util.List;
 

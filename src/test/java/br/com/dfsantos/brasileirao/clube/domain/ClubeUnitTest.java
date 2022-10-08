@@ -1,5 +1,9 @@
-package br.com.dfsantos.brasileirao.clube;
+package br.com.dfsantos.brasileirao.clube.domain;
 
+import br.com.dfsantos.brasileirao.clube.domain.CidadeInvalidaException;
+import br.com.dfsantos.brasileirao.clube.domain.Clube;
+import br.com.dfsantos.brasileirao.clube.domain.NomeClubeInvalidoException;
+import br.com.dfsantos.brasileirao.clube.domain.UfInvalidaException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

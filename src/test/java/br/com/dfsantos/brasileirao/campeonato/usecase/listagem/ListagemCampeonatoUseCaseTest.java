@@ -1,6 +1,6 @@
 package br.com.dfsantos.brasileirao.campeonato.usecase.listagem;
 
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
+import br.com.dfsantos.brasileirao.campeonato.domain.Campeonato;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.RepositorioCampeonato;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static br.com.dfsantos.brasileirao.campeonato.domain.entity.CampeonatoUnitTest.campeonato;
+import static br.com.dfsantos.brasileirao.campeonato.domain.CampeonatoUnitTest.campeonato;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;

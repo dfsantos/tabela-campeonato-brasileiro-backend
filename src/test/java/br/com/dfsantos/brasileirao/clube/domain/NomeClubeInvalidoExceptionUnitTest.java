@@ -1,5 +1,6 @@
-package br.com.dfsantos.brasileirao.clube;
+package br.com.dfsantos.brasileirao.clube.domain;
 
+import br.com.dfsantos.brasileirao.clube.domain.NomeClubeInvalidoException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

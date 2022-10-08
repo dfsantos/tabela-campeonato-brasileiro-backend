@@ -1,6 +1,6 @@
 package br.com.dfsantos.brasileirao.campeonato.infrastructure.database;
 
-import br.com.dfsantos.brasileirao.campeonato.domain.entity.Campeonato;
+import br.com.dfsantos.brasileirao.campeonato.domain.Campeonato;
 import br.com.dfsantos.brasileirao.campeonato.usecase.criacao.RepositorioCampeonato;
 import org.springframework.stereotype.Repository;
 
